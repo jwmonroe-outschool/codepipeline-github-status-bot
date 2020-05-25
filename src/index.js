@@ -51,10 +51,15 @@ function transformState(state) {
   if (state === "SUCCEEDED") {
     return "success";
   }
-  if (state === "STARTED" || state === "RESUMED") {
+  if (state === "STARTED" || state === "RESUMED" || state === "STOPPING") {
     return "pending";
   }
-  if (state === "FAILED" || state === "CANCELED" || state === "SUPERSEDED") {
+  if (
+    state === "FAILED" ||
+    state === "CANCELED" ||
+    state === "SUPERSEDED" ||
+    state === "STOPPED"
+  ) {
     return "failure";
   }
   return null;
