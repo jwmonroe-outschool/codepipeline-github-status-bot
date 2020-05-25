@@ -19,6 +19,7 @@ exports.handler = async (event) => {
   if (state === null) {
     return;
   }
+
   const result = await CodePipeline.getPipelineExecution({
     pipelineName: pipelineName,
     pipelineExecutionId: executionId,
@@ -39,16 +40,15 @@ exports.handler = async (event) => {
 };
 
 function transformState(state) {
-  if (state === "STARTED" || state === "RESUMED") {
-    return "pending";
-  }
   if (state === "SUCCEEDED") {
     return "success";
   }
-  if (state === "FAILED" || state == "CANCELED") {
+  if (state === "STARTED" || state === "RESUMED") {
+    return "pending";
+  }
+  if (state === "FAILED" || state === "CANCELED" || state === "SUPERSEDED") {
     return "failure";
   }
-
   return null;
 }
 

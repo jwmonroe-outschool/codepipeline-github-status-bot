@@ -52,7 +52,7 @@ export class CodepipelineGithubStatusBotStack extends Stack {
     new Rule(this, "Rule", {
       eventPattern: {
         source: ["aws.codepipeline"],
-        detailType: ["CodePipeline Stage Execution State Change"],
+        detailType: ["CodePipeline Pipeline Execution State Change"],
       },
       targets: [new LambdaFunction(lambda)],
     });
