@@ -1,0 +1,160 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`it should match the latest snapshot 1`] = `
+Object {
+  "Parameters": Object {
+    "AssetParameters9f3fab5ddf7cf3ebc0f60919ffcbbf22f497bb45096ef18b925235503262afa1ArtifactHash9B53DC6C": Object {
+      "Description": "Artifact hash for asset \\"9f3fab5ddf7cf3ebc0f60919ffcbbf22f497bb45096ef18b925235503262afa1\\"",
+      "Type": "String",
+    },
+    "AssetParameters9f3fab5ddf7cf3ebc0f60919ffcbbf22f497bb45096ef18b925235503262afa1S3BucketBF8F8EE3": Object {
+      "Description": "S3 bucket for asset \\"9f3fab5ddf7cf3ebc0f60919ffcbbf22f497bb45096ef18b925235503262afa1\\"",
+      "Type": "String",
+    },
+    "AssetParameters9f3fab5ddf7cf3ebc0f60919ffcbbf22f497bb45096ef18b925235503262afa1S3VersionKey0EFEC2D2": Object {
+      "Description": "S3 key for asset version \\"9f3fab5ddf7cf3ebc0f60919ffcbbf22f497bb45096ef18b925235503262afa1\\"",
+      "Type": "String",
+    },
+  },
+  "Resources": Object {
+    "Function76856677": Object {
+      "DependsOn": Array [
+        "FunctionServiceRole675BB04A",
+      ],
+      "Properties": Object {
+        "Code": Object {
+          "S3Bucket": Object {
+            "Ref": "AssetParameters9f3fab5ddf7cf3ebc0f60919ffcbbf22f497bb45096ef18b925235503262afa1S3BucketBF8F8EE3",
+          },
+          "S3Key": Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                Object {
+                  "Fn::Select": Array [
+                    0,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "AssetParameters9f3fab5ddf7cf3ebc0f60919ffcbbf22f497bb45096ef18b925235503262afa1S3VersionKey0EFEC2D2",
+                        },
+                      ],
+                    },
+                  ],
+                },
+                Object {
+                  "Fn::Select": Array [
+                    1,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "AssetParameters9f3fab5ddf7cf3ebc0f60919ffcbbf22f497bb45096ef18b925235503262afa1S3VersionKey0EFEC2D2",
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            ],
+          },
+        },
+        "Handler": "index.handler",
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "FunctionServiceRole675BB04A",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs12.x",
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "FunctionAllowEventRuleMyTestStackRule0FDD01B9501EA31F": Object {
+      "Properties": Object {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": Object {
+          "Fn::GetAtt": Array [
+            "Function76856677",
+            "Arn",
+          ],
+        },
+        "Principal": "events.amazonaws.com",
+        "SourceArn": Object {
+          "Fn::GetAtt": Array [
+            "Rule4C995B7F",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "FunctionServiceRole675BB04A": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "Rule4C995B7F": Object {
+      "Properties": Object {
+        "EventPattern": Object {
+          "detail": Object {
+            "state": Array [
+              "STARTED",
+              "SUCCEEDED",
+              "RESUMED",
+              "FAILED",
+              "CANCELED",
+            ],
+          },
+          "detail-type": Array [
+            "CodePipeline Stage Execution State Change",
+          ],
+          "source": Array [
+            "aws.codepipeline",
+          ],
+        },
+        "State": "ENABLED",
+        "Targets": Array [
+          Object {
+            "Arn": Object {
+              "Fn::GetAtt": Array [
+                "Function76856677",
+                "Arn",
+              ],
+            },
+            "Id": "Target0",
+          },
+        ],
+      },
+      "Type": "AWS::Events::Rule",
+    },
+  },
+}
+`;

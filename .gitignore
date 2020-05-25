@@ -10,3 +10,8 @@ cdk.out
 # Parcel build directories
 .cache
 .build
+
+!src/**/*
+src/**/node_modules/**
+
+dist/**
