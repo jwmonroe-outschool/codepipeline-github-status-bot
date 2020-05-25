@@ -16,6 +16,14 @@ exports.handler = async (event) => {
   const executionId = event.detail["execution-id"];
   const state = transformState(event.detail.state);
 
+  console.log("Handling pipeline update", {
+    state,
+    region,
+    pipelineName,
+    executionId,
+    event,
+  });
+
   if (state === null) {
     return;
   }
