@@ -29,8 +29,6 @@ jobs:
             ${{ runner.os }}-yarn-
       - name: Install CDK
         run: yarn install-prod
-      - name: Test CDK
-        run: yarn test
       - name: Build CDK
         run: yarn build
       - name: Deploy CDK
